@@ -18,7 +18,18 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('login', App\Http\Controllers\Api\Auth\LoginController::class);
-Route::post('see', App\Http\Controllers\Api\Auth\SeeAuthenticatingUserController::class);
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', App\Http\Controllers\Api\Auth\LoginController::class);
+
+    // 認証ルート
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('see', App\Http\Controllers\Api\Auth\SeeAuthenticatingUserController::class);
+        // Route::post('logout', App\Http\Controllers\Api\Auth\LogoutController::class);
+        // Route::post('refresh', App\Http\Controllers\Api\Auth\TokenRefreshController::class);
+    });
+
+});
+
+
 // Route::post('logout', App\Http\Controllers\Api\Auth\LogoutController::class);
 // Route::post('refresh', App\Http\Controllers\Api\Auth\TokenRefreshController::class);

@@ -9,7 +9,7 @@ class SeeAuthenticatingUserController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $user = auth()->attempt();
+        $user = auth()->user();
         return response()->success($user);
     }
 }
